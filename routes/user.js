@@ -22,7 +22,6 @@ router.post("/signup", async (req, res) => {
         .render("signup", { error: "Email already in use" });
     }
 
-    // Create a new user
     await user.create({
       fullName,
       email,
@@ -53,6 +52,10 @@ router.post("/signin", async (req, res) => {
       .status(400)
       .render("signin", { error: "Invalid email or password" });
   }
+});
+
+router.get("/logout", async (req, res) => {
+  res.clearCookie("token").redirect("/");
 });
 
 module.exports = router;

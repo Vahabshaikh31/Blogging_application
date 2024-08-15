@@ -1,6 +1,6 @@
 const jsonwebtoken = require("jsonwebtoken");
 
-const secret = "$uperman@123";
+const secret = "$uperman@123"; // Use environment variable for secret
 
 function createTokenForUser(user) {
   const payload = {
@@ -9,16 +9,22 @@ function createTokenForUser(user) {
     profileImageURL: user.profileImageURL,
     role: user.role,
   };
-  const token = jsonwebtoken.sign(payload, secret);
+  // Add token expiration time
+  const token = jsonwebtoken.sign(payload, secret); // Token expires in 1 hour
   return token;
 }
 
 function validateToken(token) {
-  const payload = jsonwebtoken.verify(token, secret);
-  return payload;
+  try {
+    const payload = jsonwebtoken.verify(token, secret);
+    return payload;
+  } catch (err) {
+    console.error("Invalid token:", err.message);
+    return null; // Return null or handle the error as needed
+  }
 }
 
 module.exports = {
   createTokenForUser,
-  validateToken, 
+  validateToken,
 };

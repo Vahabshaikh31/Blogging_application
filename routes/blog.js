@@ -31,12 +31,31 @@ router.post("/", upload.single("coverImage"), async (req, res) => {
       coverImageURL: `/uploads/${req.file.filename}`,
     });
 
-    return res.redirect(`/blog/${blog._id}`); 
+    return res.redirect(`/blog/${blog._id}`);
   } catch (error) {
     console.error(error);
     return res
       .status(500)
       .send("An error occurred while creating the blog post.");
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const blog = await Blog.findById(id);
+    if (!blog) {
+      return res.status(404).send("Blog not found");
+    }
+    return res.render("blog", {
+      user: req.user,
+      blog,
+    });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .send("An error occurred while retrieving the blog post.");
   }
 });
 

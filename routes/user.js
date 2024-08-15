@@ -28,7 +28,7 @@ router.post("/signup", async (req, res) => {
       password,
     });
 
-    return res.redirect("/signin"); // Redirect to signin page after signup
+    return res.redirect("/user/signin"); // Redirect to signin page after signup
   } catch (err) {
     console.error("Error during signup:", err.message);
     return res
